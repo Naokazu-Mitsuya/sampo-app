@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>443485230140-itmem03n8dr8i17s54nj8u3c9252s7ik.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.443485230140-itmem03n8dr8i17s54nj8u3c9252s7ik</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>443485230140-jds03slgihekiv7u44rukds4bl2jufu5.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyBeqpNNHzYBkEh29kmmLZmUlOi-6hOSii8</string>
+	<key>GCM_SENDER_ID</key>
+	<string>443485230140</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.mycompany.sampoapp</string>
+	<key>PROJECT_ID</key>
+	<string>pro-sanpo-test</string>
+	<key>STORAGE_BUCKET</key>
+	<string>pro-sanpo-test.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:443485230140:ios:071a90c7d66ac682731f39</string>
+</dict>
+</plist>

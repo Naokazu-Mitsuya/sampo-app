@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "443485230140",
+    "project_id": "pro-sanpo-test",
+    "storage_bucket": "pro-sanpo-test.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:443485230140:android:b3713d39752e550c731f39",
+        "android_client_info": {
+          "package_name": "com.mycompany.sampoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "443485230140-jds03slgihekiv7u44rukds4bl2jufu5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mycompany.sampoapp",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "443485230140-5gsvbuuqeer0uh6ulm5vpdj0tirkv562.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAg9s8-4iPshAsBFM60zrLgHFs74DWNQaE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "443485230140-5gsvbuuqeer0uh6ulm5vpdj0tirkv562.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "443485230140-itmem03n8dr8i17s54nj8u3c9252s7ik.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.mycompany.sampoapp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
