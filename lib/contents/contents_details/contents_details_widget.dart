@@ -42,10 +42,8 @@ class _ContentsDetailsWidgetState extends State<ContentsDetailsWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<ContentsRecord>>(
-      stream: queryContentsRecord(
-        singleRecord: true,
-      ),
+    return StreamBuilder<ContentsRecord>(
+      stream: ContentsRecord.getDocument(widget.contentsRef!),
       builder: (context, snapshot) {
         // Customize what your widget looks like when it's loading.
         if (!snapshot.hasData) {
@@ -64,15 +62,7 @@ class _ContentsDetailsWidgetState extends State<ContentsDetailsWidget> {
             ),
           );
         }
-        List<ContentsRecord> contentsDetailsContentsRecordList = snapshot.data!;
-        // Return an empty Container when the item does not exist.
-        if (snapshot.data!.isEmpty) {
-          return Container();
-        }
-        final contentsDetailsContentsRecord =
-            contentsDetailsContentsRecordList.isNotEmpty
-                ? contentsDetailsContentsRecordList.first
-                : null;
+        final contentsDetailsContentsRecord = snapshot.data!;
         return Scaffold(
           key: scaffoldKey,
           backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -93,9 +83,32 @@ class _ContentsDetailsWidgetState extends State<ContentsDetailsWidget> {
                 size: 32.0,
               ),
             ),
-            title: Text(
-              contentsDetailsContentsRecord!.title,
-              style: FlutterFlowTheme.of(context).headlineMedium,
+            title: StreamBuilder<ContentsRecord>(
+              stream: ContentsRecord.getDocument(widget.contentsRef!),
+              builder: (context, snapshot) {
+                // Customize what your widget looks like when it's loading.
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: SizedBox(
+                      width: 50.0,
+                      height: 50.0,
+                      child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(
+                          FlutterFlowTheme.of(context).primary,
+                        ),
+                      ),
+                    ),
+                  );
+                }
+                final textContentsRecord = snapshot.data!;
+                return Text(
+                  valueOrDefault<String>(
+                    contentsDetailsContentsRecord.title,
+                    'title',
+                  ),
+                  style: FlutterFlowTheme.of(context).headlineMedium,
+                );
+              },
             ),
             actions: [],
             centerTitle: false,
@@ -112,7 +125,7 @@ class _ContentsDetailsWidgetState extends State<ContentsDetailsWidget> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(12.0),
                     child: Image.network(
-                      contentsDetailsContentsRecord!.photoUrl,
+                      contentsDetailsContentsRecord.photoUrl,
                       width: MediaQuery.sizeOf(context).width * 1.0,
                       height: 230.0,
                       fit: BoxFit.cover,
@@ -130,13 +143,21 @@ class _ContentsDetailsWidgetState extends State<ContentsDetailsWidget> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            contentsDetailsContentsRecord!.title,
-                            style: FlutterFlowTheme.of(context).headlineMedium,
+                            valueOrDefault<String>(
+                              contentsDetailsContentsRecord.title,
+                              'title',
+                            ),
+                            style: FlutterFlowTheme.of(context)
+                                .headlineMedium
+                                .override(
+                                  fontFamily: 'Outfit',
+                                  fontSize: 20.0,
+                                ),
                           ),
                           Row(
                             mainAxisSize: MainAxisSize.max,
                             children: [
-                              if (contentsDetailsContentsRecord?.postUser ==
+                              if (contentsDetailsContentsRecord.postUser ==
                                   currentUserReference)
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
@@ -205,7 +226,7 @@ class _ContentsDetailsWidgetState extends State<ContentsDetailsWidget> {
                                     ),
                                   ),
                                 ),
-                              if (contentsDetailsContentsRecord?.postUser ==
+                              if (contentsDetailsContentsRecord.postUser ==
                                   currentUserReference)
                                 InkWell(
                                   splashColor: Colors.transparent,
@@ -226,43 +247,42 @@ class _ContentsDetailsWidgetState extends State<ContentsDetailsWidget> {
                           ),
                         ],
                       ),
-                      StreamBuilder<List<UsersRecord>>(
-                        stream: queryUsersRecord(
-                          singleRecord: true,
-                        ),
-                        builder: (context, snapshot) {
-                          // Customize what your widget looks like when it's loading.
-                          if (!snapshot.hasData) {
-                            return Center(
-                              child: SizedBox(
-                                width: 50.0,
-                                height: 50.0,
-                                child: CircularProgressIndicator(
-                                  valueColor: AlwaysStoppedAnimation<Color>(
-                                    FlutterFlowTheme.of(context).primary,
+                      Padding(
+                        padding:
+                            EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 0.0),
+                        child: StreamBuilder<UsersRecord>(
+                          stream: UsersRecord.getDocument(
+                              contentsDetailsContentsRecord.postUser!),
+                          builder: (context, snapshot) {
+                            // Customize what your widget looks like when it's loading.
+                            if (!snapshot.hasData) {
+                              return Center(
+                                child: SizedBox(
+                                  width: 50.0,
+                                  height: 50.0,
+                                  child: CircularProgressIndicator(
+                                    valueColor: AlwaysStoppedAnimation<Color>(
+                                      FlutterFlowTheme.of(context).primary,
+                                    ),
                                   ),
                                 ),
+                              );
+                            }
+                            final nameTextUsersRecord = snapshot.data!;
+                            return Text(
+                              valueOrDefault<String>(
+                                nameTextUsersRecord.displayName,
+                                'none',
                               ),
+                              style: FlutterFlowTheme.of(context)
+                                  .headlineMedium
+                                  .override(
+                                    fontFamily: 'Outfit',
+                                    fontSize: 16.0,
+                                  ),
                             );
-                          }
-                          List<UsersRecord> nameTextUsersRecordList =
-                              snapshot.data!;
-                          // Return an empty Container when the item does not exist.
-                          if (snapshot.data!.isEmpty) {
-                            return Container();
-                          }
-                          final nameTextUsersRecord =
-                              nameTextUsersRecordList.isNotEmpty
-                                  ? nameTextUsersRecordList.first
-                                  : null;
-                          return Text(
-                            valueOrDefault<String>(
-                              nameTextUsersRecord?.displayName,
-                              'none',
-                            ),
-                            style: FlutterFlowTheme.of(context).headlineMedium,
-                          );
-                        },
+                          },
+                        ),
                       ),
                       Row(
                         mainAxisSize: MainAxisSize.max,
@@ -271,21 +291,31 @@ class _ContentsDetailsWidgetState extends State<ContentsDetailsWidget> {
                             padding: EdgeInsetsDirectional.fromSTEB(
                                 0.0, 8.0, 0.0, 8.0),
                             child: Text(
-                              dateTimeFormat('M/d H:mm',
-                                  contentsDetailsContentsRecord!.timeStamp!),
+                              valueOrDefault<String>(
+                                dateTimeFormat('M/d H:mm',
+                                    contentsDetailsContentsRecord.timeStamp),
+                                'none',
+                              ),
                               style: FlutterFlowTheme.of(context)
                                   .titleMedium
                                   .override(
                                     fontFamily: 'Readex Pro',
                                     color: FlutterFlowTheme.of(context).primary,
+                                    fontSize: 14.0,
                                   ),
                             ),
                           ),
                         ],
                       ),
                       Text(
-                        contentsDetailsContentsRecord!.description,
-                        style: FlutterFlowTheme.of(context).labelLarge,
+                        valueOrDefault<String>(
+                          contentsDetailsContentsRecord.description,
+                          'none',
+                        ),
+                        style: FlutterFlowTheme.of(context).labelLarge.override(
+                              fontFamily: 'Readex Pro',
+                              fontSize: 14.0,
+                            ),
                       ),
                       Divider(
                         height: 32.0,
