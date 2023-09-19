@@ -5,7 +5,6 @@ import '/flutter_flow/flutter_flow_widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'sign_up_model.dart';
@@ -414,7 +413,7 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                                   .override(
                                                     fontFamily: 'Readex Pro',
                                                     color: Colors.white,
-                                                    fontSize: 22.0,
+                                                    fontSize: 16.0,
                                                     fontWeight: FontWeight.w500,
                                                   ),
                                           elevation: 3.0,
@@ -424,64 +423,6 @@ class _SignUpWidgetState extends State<SignUpWidget> {
                                           ),
                                           borderRadius:
                                               BorderRadius.circular(50.0),
-                                        ),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                          16.0, 2.0, 16.0, 16.0),
-                                      child: FFButtonWidget(
-                                        onPressed: () async {
-                                          GoRouter.of(context)
-                                              .prepareAuthEvent();
-                                          final user = await authManager
-                                              .signInWithGoogle(context);
-                                          if (user == null) {
-                                            return;
-                                          }
-
-                                          context.pushNamedAuth(
-                                              'Home', context.mounted);
-                                        },
-                                        text: 'Sign up with Google',
-                                        icon: FaIcon(
-                                          FontAwesomeIcons.google,
-                                          color: FlutterFlowTheme.of(context)
-                                              .primaryText,
-                                          size: 24.0,
-                                        ),
-                                        options: FFButtonOptions(
-                                          width: double.infinity,
-                                          height: 45.0,
-                                          padding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 0.0, 0.0),
-                                          iconPadding:
-                                              EdgeInsetsDirectional.fromSTEB(
-                                                  0.0, 0.0, 12.0, 0.0),
-                                          color: FlutterFlowTheme.of(context)
-                                              .secondaryBackground,
-                                          textStyle: FlutterFlowTheme.of(
-                                                  context)
-                                              .titleLarge
-                                              .override(
-                                                fontFamily: 'Outfit',
-                                                color:
-                                                    FlutterFlowTheme.of(context)
-                                                        .primary,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                          elevation: 0.0,
-                                          borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .alternate,
-                                            width: 2.0,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(50.0),
-                                          hoverColor:
-                                              FlutterFlowTheme.of(context)
-                                                  .alternate,
                                         ),
                                       ),
                                     ),

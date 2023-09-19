@@ -6,3 +6,6 @@ export '/singin_page/start/start_widget.dart' show StartWidget;
 export '/contents/edit_profile/edit_profile_widget.dart' show EditProfileWidget;
 export '/singin_page/createprofile/createprofile_widget.dart'
     show CreateprofileWidget;
+export '/contents/contents_details/contents_details_widget.dart'
+    show ContentsDetailsWidget;
+export '/contents/edit_post/edit_post_widget.dart' show EditPostWidget;

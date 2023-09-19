@@ -167,18 +167,17 @@ class _CreateprofileWidgetState extends State<CreateprofileWidget> {
                             }
                           },
                           child: Container(
-                            width: 100.0,
-                            height: 100.0,
+                            width: 120.0,
+                            height: 120.0,
                             decoration: BoxDecoration(
                               color: FlutterFlowTheme.of(context).alternate,
                               shape: BoxShape.circle,
                             ),
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  2.0, 2.0, 2.0, 2.0),
+                            child: Align(
+                              alignment: AlignmentDirectional(0.00, 0.00),
                               child: Container(
-                                width: 90.0,
-                                height: 90.0,
+                                width: double.infinity,
+                                height: double.infinity,
                                 clipBehavior: Clip.antiAlias,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
@@ -188,7 +187,7 @@ class _CreateprofileWidgetState extends State<CreateprofileWidget> {
                                   fadeOutDuration: Duration(milliseconds: 500),
                                   imageUrl: valueOrDefault<String>(
                                     _model.uploadedFileUrl1,
-                                    'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/sampo-app-637maj/assets/e1djrsgbjvh8/noimage.png',
+                                    'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/sampo-app-637maj/assets/alf1sjc3tb89/%E3%82%B5%E3%83%A9%E3%83%AA%E3%83%BC%E3%83%9E%E3%83%B3.png',
                                   ),
                                   fit: BoxFit.fitWidth,
                                 ),

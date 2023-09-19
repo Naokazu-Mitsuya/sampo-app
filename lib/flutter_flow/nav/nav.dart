@@ -115,6 +115,19 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           name: 'Createprofile',
           path: '/createprofile',
           builder: (context, params) => CreateprofileWidget(),
+        ),
+        FFRoute(
+          name: 'ContentsDetails',
+          path: '/contentsDetails',
+          builder: (context, params) => ContentsDetailsWidget(
+            contentsRef: params.getParam('contentsRef',
+                ParamType.DocumentReference, false, ['contents']),
+          ),
+        ),
+        FFRoute(
+          name: 'EditPost',
+          path: '/editPost',
+          builder: (context, params) => EditPostWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
