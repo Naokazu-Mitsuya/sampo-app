@@ -40,6 +40,8 @@ class _EditPostWidgetState extends State<EditPostWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return StreamBuilder<List<ContentsRecord>>(
       stream: queryContentsRecord(
         singleRecord: true,

@@ -49,6 +49,8 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return StreamBuilder<List<UsersRecord>>(
       stream: queryUsersRecord(
         singleRecord: true,
@@ -83,7 +85,7 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
           key: scaffoldKey,
           backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
           appBar: PreferredSize(
-            preferredSize: Size.fromHeight(100.0),
+            preferredSize: Size.fromHeight(130.0),
             child: AppBar(
               backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
               automaticallyImplyLeading: false,
@@ -96,33 +98,29 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding:
-                            EdgeInsetsDirectional.fromSTEB(0.0, 0.0, 0.0, 8.0),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.max,
-                          children: [
-                            Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  12.0, 0.0, 0.0, 0.0),
-                              child: FlutterFlowIconButton(
-                                borderColor: Colors.transparent,
-                                borderRadius: 30.0,
-                                borderWidth: 1.0,
-                                buttonSize: 50.0,
-                                icon: Icon(
-                                  Icons.arrow_back_rounded,
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryText,
-                                  size: 30.0,
-                                ),
-                                onPressed: () async {
-                                  context.pushNamed('Home');
-                                },
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                12.0, 0.0, 0.0, 0.0),
+                            child: FlutterFlowIconButton(
+                              borderColor: Colors.transparent,
+                              borderRadius: 30.0,
+                              borderWidth: 1.0,
+                              buttonSize: 50.0,
+                              icon: Icon(
+                                Icons.arrow_back_rounded,
+                                color: FlutterFlowTheme.of(context).primaryText,
+                                size: 30.0,
                               ),
+                              onPressed: () async {
+                                context.pushNamed('Home');
+                              },
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                       Padding(
                         padding:
@@ -263,7 +261,10 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                                           Duration(milliseconds: 500),
                                       fadeOutDuration:
                                           Duration(milliseconds: 500),
-                                      imageUrl: _model.uploadedFileUrl,
+                                      imageUrl: valueOrDefault<String>(
+                                        _model.uploadedFileUrl,
+                                        'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/sampo-app-637maj/assets/alf1sjc3tb89/%E3%82%B5%E3%83%A9%E3%83%AA%E3%83%BC%E3%83%9E%E3%83%B3.png',
+                                      ),
                                       fit: BoxFit.fitWidth,
                                     ),
                                   ),
@@ -500,10 +501,6 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                                   !_model.formKey.currentState!.validate()) {
                                 return;
                               }
-                              if (_model.uploadedFileUrl == null ||
-                                  _model.uploadedFileUrl.isEmpty) {
-                                return;
-                              }
 
                               await currentUserReference!
                                   .update(createUsersRecordData(
@@ -518,8 +515,11 @@ class _EditProfileWidgetState extends State<EditProfileWidget> {
                                     .update(createUsersRecordData(
                                   photoUrl: _model.uploadedFileUrl,
                                 ));
+                              } else {
+                                context.pushNamed('Home');
                               }
-                              context.safePop();
+
+                              context.pushNamed('Home');
                             },
                             text: 'Save Changes',
                             options: FFButtonOptions(

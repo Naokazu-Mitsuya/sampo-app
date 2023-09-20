@@ -141,6 +141,8 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
@@ -219,7 +221,8 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                 StreamBuilder<List<ContentsRecord>>(
                                   stream: queryContentsRecord(
                                     queryBuilder: (contentsRecord) =>
-                                        contentsRecord.orderBy('time_stamp'),
+                                        contentsRecord.orderBy('time_stamp',
+                                            descending: true),
                                   ),
                                   builder: (context, snapshot) {
                                     // Customize what your widget looks like when it's loading.
@@ -278,7 +281,8 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                     StreamBuilder<UsersRecord>(
                                                       stream: UsersRecord
                                                           .getDocument(
-                                                              currentUserReference!),
+                                                              listViewContentsRecord
+                                                                  .postUser!),
                                                       builder:
                                                           (context, snapshot) {
                                                         // Customize what your widget looks like when it's loading.
@@ -314,26 +318,22 @@ class _HomeWidgetState extends State<HomeWidget> with TickerProviderStateMixin {
                                                                           0.0,
                                                                           0.0,
                                                                           0.0),
-                                                              child:
-                                                                  AuthUserStreamWidget(
-                                                                builder:
-                                                                    (context) =>
-                                                                        Container(
-                                                                  width: 50.0,
-                                                                  height: 50.0,
-                                                                  clipBehavior:
-                                                                      Clip.antiAlias,
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    shape: BoxShape
-                                                                        .circle,
-                                                                  ),
-                                                                  child: Image
-                                                                      .network(
-                                                                    currentUserPhoto,
-                                                                    fit: BoxFit
-                                                                        .cover,
-                                                                  ),
+                                                              child: Container(
+                                                                width: 50.0,
+                                                                height: 50.0,
+                                                                clipBehavior: Clip
+                                                                    .antiAlias,
+                                                                decoration:
+                                                                    BoxDecoration(
+                                                                  shape: BoxShape
+                                                                      .circle,
+                                                                ),
+                                                                child: Image
+                                                                    .network(
+                                                                  rowUsersRecord
+                                                                      .photoUrl,
+                                                                  fit: BoxFit
+                                                                      .cover,
                                                                 ),
                                                               ),
                                                             ),

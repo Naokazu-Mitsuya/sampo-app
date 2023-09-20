@@ -46,6 +46,11 @@ class ContentsRecord extends FirestoreRecord {
   List<DocumentReference> get likes => _likes ?? const [];
   bool hasLikes() => _likes != null;
 
+  // "reactions" field.
+  List<DocumentReference>? _reactions;
+  List<DocumentReference> get reactions => _reactions ?? const [];
+  bool hasReactions() => _reactions != null;
+
   void _initializeFields() {
     _title = snapshotData['title'] as String?;
     _description = snapshotData['description'] as String?;
@@ -53,6 +58,7 @@ class ContentsRecord extends FirestoreRecord {
     _photoUrl = snapshotData['photo_url'] as String?;
     _postUser = snapshotData['post_user'] as DocumentReference?;
     _likes = getDataList(snapshotData['likes']);
+    _reactions = getDataList(snapshotData['reactions']);
   }
 
   static CollectionReference get collection =>
@@ -120,7 +126,8 @@ class ContentsRecordDocumentEquality implements Equality<ContentsRecord> {
         e1?.timeStamp == e2?.timeStamp &&
         e1?.photoUrl == e2?.photoUrl &&
         e1?.postUser == e2?.postUser &&
-        listEquality.equals(e1?.likes, e2?.likes);
+        listEquality.equals(e1?.likes, e2?.likes) &&
+        listEquality.equals(e1?.reactions, e2?.reactions);
   }
 
   @override
@@ -130,7 +137,8 @@ class ContentsRecordDocumentEquality implements Equality<ContentsRecord> {
         e?.timeStamp,
         e?.photoUrl,
         e?.postUser,
-        e?.likes
+        e?.likes,
+        e?.reactions
       ]);
 
   @override

@@ -34,6 +34,8 @@ class _StartWidgetState extends State<StartWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(_model.unfocusNode),
       child: Scaffold(
@@ -47,7 +49,7 @@ class _StartWidgetState extends State<StartWidget> {
             children: [
               Container(
                 width: 432.0,
-                height: 851.0,
+                height: 840.0,
                 decoration: BoxDecoration(
                   color: Color(0xFFB3DDBF),
                 ),
@@ -62,7 +64,7 @@ class _StartWidgetState extends State<StartWidget> {
                         child: Image.asset(
                           'assets/images/np7zg_.png',
                           width: 396.0,
-                          height: 550.0,
+                          height: 522.0,
                           fit: BoxFit.cover,
                         ),
                       ),

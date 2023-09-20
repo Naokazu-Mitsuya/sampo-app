@@ -1,10 +1,12 @@
 import '/auth/firebase_auth/auth_util.dart';
+import '/backend/backend.dart';
 import '/backend/firebase_storage/storage.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
 import '/flutter_flow/flutter_flow_util.dart';
 import '/flutter_flow/flutter_flow_widgets.dart';
 import '/flutter_flow/upload_data.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -43,6 +45,8 @@ class _CreateprofileWidgetState extends State<CreateprofileWidget> {
 
   @override
   Widget build(BuildContext context) {
+    context.watch<FFAppState>();
+
     return Scaffold(
       key: scaffoldKey,
       backgroundColor: FlutterFlowTheme.of(context).secondaryBackground,
@@ -115,7 +119,7 @@ class _CreateprofileWidgetState extends State<CreateprofileWidget> {
                             if (selectedMedia != null &&
                                 selectedMedia.every((m) => validateFileFormat(
                                     m.storagePath, context))) {
-                              setState(() => _model.isDataUploading1 = true);
+                              setState(() => _model.isDataUploading = true);
                               var selectedUploadedFiles = <FFUploadedFile>[];
 
                               var downloadUrls = <String>[];
@@ -147,15 +151,15 @@ class _CreateprofileWidgetState extends State<CreateprofileWidget> {
                               } finally {
                                 ScaffoldMessenger.of(context)
                                     .hideCurrentSnackBar();
-                                _model.isDataUploading1 = false;
+                                _model.isDataUploading = false;
                               }
                               if (selectedUploadedFiles.length ==
                                       selectedMedia.length &&
                                   downloadUrls.length == selectedMedia.length) {
                                 setState(() {
-                                  _model.uploadedLocalFile1 =
+                                  _model.uploadedLocalFile =
                                       selectedUploadedFiles.first;
-                                  _model.uploadedFileUrl1 = downloadUrls.first;
+                                  _model.uploadedFileUrl = downloadUrls.first;
                                 });
                                 showUploadMessage(context, 'Success!');
                               } else {
@@ -186,7 +190,7 @@ class _CreateprofileWidgetState extends State<CreateprofileWidget> {
                                   fadeInDuration: Duration(milliseconds: 500),
                                   fadeOutDuration: Duration(milliseconds: 500),
                                   imageUrl: valueOrDefault<String>(
-                                    _model.uploadedFileUrl1,
+                                    _model.uploadedFileUrl,
                                     'https://storage.googleapis.com/flutterflow-io-6f20.appspot.com/projects/sampo-app-637maj/assets/alf1sjc3tb89/%E3%82%B5%E3%83%A9%E3%83%AA%E3%83%BC%E3%83%9E%E3%83%B3.png',
                                   ),
                                   fit: BoxFit.fitWidth,
@@ -412,53 +416,19 @@ class _CreateprofileWidgetState extends State<CreateprofileWidget> {
                               !_model.formKey.currentState!.validate()) {
                             return;
                           }
-                          final selectedMedia = await selectMedia(
-                            mediaSource: MediaSource.photoGallery,
-                            multiImage: false,
-                          );
-                          if (selectedMedia != null &&
-                              selectedMedia.every((m) =>
-                                  validateFileFormat(m.storagePath, context))) {
-                            setState(() => _model.isDataUploading2 = true);
-                            var selectedUploadedFiles = <FFUploadedFile>[];
-
-                            var downloadUrls = <String>[];
-                            try {
-                              selectedUploadedFiles = selectedMedia
-                                  .map((m) => FFUploadedFile(
-                                        name: m.storagePath.split('/').last,
-                                        bytes: m.bytes,
-                                        height: m.dimensions?.height,
-                                        width: m.dimensions?.width,
-                                        blurHash: m.blurHash,
-                                      ))
-                                  .toList();
-
-                              downloadUrls = (await Future.wait(
-                                selectedMedia.map(
-                                  (m) async =>
-                                      await uploadData(m.storagePath, m.bytes),
-                                ),
-                              ))
-                                  .where((u) => u != null)
-                                  .map((u) => u!)
-                                  .toList();
-                            } finally {
-                              _model.isDataUploading2 = false;
-                            }
-                            if (selectedUploadedFiles.length ==
-                                    selectedMedia.length &&
-                                downloadUrls.length == selectedMedia.length) {
-                              setState(() {
-                                _model.uploadedLocalFile2 =
-                                    selectedUploadedFiles.first;
-                                _model.uploadedFileUrl2 = downloadUrls.first;
-                              });
-                            } else {
-                              setState(() {});
-                              return;
-                            }
+                          if (_model.uploadedFileUrl == null ||
+                              _model.uploadedFileUrl.isEmpty) {
+                            return;
                           }
+
+                          await currentUserReference!
+                              .update(createUsersRecordData(
+                            displayName: _model.yourNameController.text,
+                            photoUrl: _model.uploadedFileUrl,
+                            city: _model.cityController.text,
+                            introduction: _model.myBioController.text,
+                            email: _model.emailController.text,
+                          ));
 
                           context.pushNamed('Home');
                         },
